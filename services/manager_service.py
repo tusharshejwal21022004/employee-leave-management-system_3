@@ -1,3 +1,4 @@
+"""Approve leave request by manager."""
 # Manager service handles approval workflow
 
 def approve_leave(leave):

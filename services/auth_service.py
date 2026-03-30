@@ -1,3 +1,4 @@
+"""Authenticate employee credentials."""
 # Authentication service validates employee login credentials
 
 def login(username, password):
