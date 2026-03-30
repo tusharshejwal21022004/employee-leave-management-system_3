@@ -1,6 +1,6 @@
 # Main application entry point
 # Controls authentication, leave submission, approval, and notification flow
-
+"""Main application entry point for leave management workflow."""
 from services.auth_service import login
 from services.leave_service import submit_leave_request
 from services.manager_service import approve_leave
