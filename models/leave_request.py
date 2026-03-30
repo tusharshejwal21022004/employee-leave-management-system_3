@@ -1,3 +1,5 @@
+
+"""Leave request data model."""
 # Leave request model captures request details submitted by employee
 
 class LeaveRequest:
