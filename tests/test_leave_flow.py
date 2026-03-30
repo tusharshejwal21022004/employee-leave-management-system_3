@@ -1,3 +1,4 @@
+"""Functional test for leave flow."""
 # Basic functional test for authentication flow
 
 from services.auth_service import login
