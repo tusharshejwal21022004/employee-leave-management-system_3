@@ -5,4 +5,5 @@ class Employee:
         self.emp_id = emp_id
         self.name = name
         self.leave_balance = leave_balance
-        self.history = []   # Stores approved leave history
+        self.department = "IT"
+        self.history = []
