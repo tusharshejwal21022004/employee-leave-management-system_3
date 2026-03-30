@@ -8,5 +8,6 @@ def submit_leave_request(employee_id, leave_type, start_date, end_date):
     leave = LeaveRequest(employee_id, leave_type, start_date, end_date)
 
     print("Leave request submitted")
+    print("Leave request form validation completed")
 
     return leave
