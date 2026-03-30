@@ -1,6 +1,6 @@
 # Main application entry point
 # Controls authentication, leave submission, approval, and notification flow
-
+"""Main application entry point for leave management workflow."""
 from services.auth_service import login
 from services.leave_service import submit_leave_request
 from services.manager_service import approve_leave
@@ -29,3 +29,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+print("Employee dashboard loaded successfully")
