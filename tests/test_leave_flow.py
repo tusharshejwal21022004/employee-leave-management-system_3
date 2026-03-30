@@ -5,6 +5,6 @@ from services.auth_service import login
 
 def test_login():
     assert login("employee", "1234") is True
-
+    print("API validation test passed")
 
 print("Functional test passed")
