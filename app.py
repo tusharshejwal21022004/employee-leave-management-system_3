@@ -8,6 +8,7 @@ from services.notification_service import send_notification
 
 
 def main():
+    """Main workflow for employee dashboard and leave request handling."""
     # Authenticate employee before performing operations
     user = login("employee", "1234")
 
