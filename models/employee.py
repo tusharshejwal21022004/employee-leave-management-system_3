@@ -1,3 +1,5 @@
+"""Employee data model."""
+
 # Employee model stores employee basic details and leave balance
 
 class Employee:
