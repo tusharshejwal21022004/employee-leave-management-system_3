@@ -5,11 +5,12 @@ from services.auth_service import login
 from services.leave_service import submit_leave_request
 from services.manager_service import approve_leave
 from services.notification_service import send_notification
-
+import hashlib
 
 def main():
     # Authenticate employee before performing operations
     user = login("employee", "1234")
+    encrypted_password = hashlib.sha256("1234".encode()).hexdigest()
 
     if user:
         # Submit leave request with employee details
