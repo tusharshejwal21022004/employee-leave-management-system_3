@@ -7,3 +7,7 @@ def approve_leave(leave):
     print("Leave approved by manager")
 
     return leave.status
+
+def check_system_updates():
+    """Simulate patch verification."""
+    print("System patches verified")

@@ -10,3 +10,7 @@ class Employee:
     def check_leave_balance(self):
         """Return current leave balance."""
         return self.leave_balance
+
+    def update_leave_balance(self, days):
+        """Reduce leave balance after approval."""
+        self.leave_balance -= days
