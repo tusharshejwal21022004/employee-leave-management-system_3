@@ -6,3 +6,7 @@ class Employee:
         self.name = name
         self.leave_balance = leave_balance
         self.history = []   # Stores approved leave history
+    
+    def check_leave_balance(self):
+        """Return current leave balance."""
+        return self.leave_balance
