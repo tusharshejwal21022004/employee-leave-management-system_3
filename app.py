@@ -8,12 +8,13 @@ from services.notification_service import send_notification
 
 jwt_token = "jwt_generated"
 
-def main():
-    # Authenticate employee before performing operations
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-    user = login(username, password)
+username = input("Enter username: ")
+password = input("Enter password: ")
 
+user = login(username, password)
+
+def main():
+   
     if user:
         # Submit leave request with employee details
         leave = submit_leave_request(
