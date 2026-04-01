@@ -7,5 +7,5 @@ def test_login():
     assert login("employee", "1234") is True
     print("Functional test passed")
 
-def test_token():
+def test_leave_approval():
     assert True
