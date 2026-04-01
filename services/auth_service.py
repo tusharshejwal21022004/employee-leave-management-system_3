@@ -6,3 +6,6 @@ def login(username, password):
         return True
 
     return False
+
+def generate_token():
+    return "jwt_token"

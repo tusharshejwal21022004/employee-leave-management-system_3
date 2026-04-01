@@ -7,3 +7,6 @@ def approve_leave(leave):
     print("Leave approved by manager")
 
     return leave.status
+
+def reject_leave(leave):
+    leave.status = "Rejected"
