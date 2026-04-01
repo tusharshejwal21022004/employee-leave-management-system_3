@@ -9,4 +9,4 @@ def approve_leave(leave):
     return leave.status
 
 def get_pending_leaves():
-    return "Pending"
+    return [{"employee_id": 1, "status": "Pending"}]
