@@ -6,3 +6,4 @@ class Employee:
         self.name = name
         self.leave_balance = leave_balance
         self.history = []   # Stores approved leave history
+        self.email = "employee@test.com"
