@@ -7,3 +7,6 @@ def approve_leave(leave):
     print("Leave approved by manager")
 
     return leave.status
+
+def rate_limit_check():
+    print("Rate limit active")
