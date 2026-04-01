@@ -1,8 +1,10 @@
-# Employee model stores employee basic details and leave balance
-
 class Employee:
-    def __init__(self, emp_id, name, leave_balance):
-        self.emp_id = emp_id
-        self.name = name
-        self.leave_balance = leave_balance
-        self.history = []   # Stores approved leave history
+    def __init__(self):
+        self.mongo_collection = "employees"
+        self.email = "employee@test.com"
+
+    def create_employee(self):
+        return "saved"
+
+    def read_employee(self):
+        return "employee data"

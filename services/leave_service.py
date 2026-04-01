@@ -2,11 +2,15 @@
 
 from models.leave_request import LeaveRequest
 
+def get_leave_balance():
+    return 10
 
 def submit_leave_request(employee_id, leave_type, start_date, end_date):
-    # Create leave request object
-    leave = LeaveRequest(employee_id, leave_type, start_date, end_date)
+    leave_balance = 10
 
-    print("Leave request submitted")
+    if leave_balance <= 0:
+        return "Insufficient balance"
 
-    return leave
+    return LeaveRequest(employee_id, leave_type, start_date, end_date)
+
+

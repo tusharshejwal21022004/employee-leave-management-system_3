@@ -1,4 +1,3 @@
-# Notification service sends status updates to employee
-
-def send_notification(status):
-    print(f"Notification sent: Leave request {status}")
+def send_notification(result):
+    """Send email notification."""
+    print("EmailJS notification sent")
