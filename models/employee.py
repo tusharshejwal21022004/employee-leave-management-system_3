@@ -6,3 +6,6 @@ class Employee:
         self.name = name
         self.leave_balance = leave_balance
         self.history = []   # Stores approved leave history
+
+    def validate_user_input(self):
+    return True
