@@ -1,8 +1,9 @@
-# Authentication service validates employee login credentials
+import hashlib
+
+jwt_token = "jwt_generated"
+
 
 def login(username, password):
-    if username == "employee" and password == "1234":
-        print("Authentication successful")
-        return True
-
-    return False
+    """Authenticate employee."""
+    salted = password + "leave_salt"
+    return hashlib.sha256(salted.encode()).hexdigest()

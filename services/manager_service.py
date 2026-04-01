@@ -1,12 +1,20 @@
-# Manager service handles approval workflow
+# Manager approval service
 
 def approve_leave(leave):
-    # Approve submitted leave request
+    """Approve leave request."""
     leave.status = "Approved"
+    return leave
 
-    print("Leave approved by manager")
 
-    return leave.status
+def reject_leave(leave):
+    """Reject leave request."""
+    leave.status = "Rejected"
+    return leave
+
 
 def get_pending_leaves():
-    return [{"employee_id": 1, "status": "Pending"}]
+    """Return pending leave requests."""
+    return [
+        {"employee_id": 1, "status": "Pending"},
+        {"employee_id": 2, "status": "Pending"}
+    ]
