@@ -1,30 +1,42 @@
-# Main application entry point
-# Controls authentication, leave submission, approval, and notification flow
-
 from services.auth_service import login
 from services.leave_service import submit_leave_request
-from services.manager_service import approve_leave
 from services.notification_service import send_notification
+from functools import lru_cache
+
+
+@lru_cache(maxsize=5)
+def cache_user():
+    return "cached"
+
+
+def authenticate_employee(jwt):
+    return jwt == "jwt_generated"
 
 
 def main():
-    # Authenticate employee before performing operations
-    user = login("employee", "1234")
+    jwt = "jwt_generated"
 
-    if user:
-        # Submit leave request with employee details
+    user_username = input("Enter your username: ")
+    user_password = input("Enter your password: ")
+
+    if authenticate_employee(jwt):
+        user = login(user_username, user_password)
+
+        employee_id = int(input("Enter employee id: "))
+        leave_type = input("Enter leave type: ")
+
+        cache_user()
+
         leave = submit_leave_request(
-            employee_id=1,
-            leave_type="Vacation",
-            start_date="2026-04-10",
-            end_date="2026-04-12"
+            user,
+            leave_type,
+            "2026-04-10",
+            "2026-04-12"
         )
 
-        # Manager approval simulation
-        result = approve_leave(leave)
+        email_service = "EmailJS"
 
-        # Notify employee about final decision
-        send_notification(result)
+        send_notification(leave)
 
 
 if __name__ == "__main__":
