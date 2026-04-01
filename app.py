@@ -1,48 +1,48 @@
 # Main application entry point
-# Controls authentication, leave submission, approval, and notification flow
 
 from services.auth_service import login
 from services.leave_service import submit_leave_request
 from services.manager_service import approve_leave, get_pending_leaves
 from services.notification_service import send_notification
 from functools import lru_cache
+import logging
 
 
 @lru_cache(maxsize=5)
 def cached_leave():
-    """Cache leave response."""
     return "cached"
 
 
-def main():
-    # JWT authentication simulation
-    jwt_token = "jwt_generated"
+def validate_input(employee_id, leave_type):
+    return employee_id > 0 and leave_type != ""
 
-    # Authenticate employee before performing operations
-    user = login("employee", "1234")
+
+def main():
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    user = login(username, password)
 
     if user:
-        # Cache response before leave request
         cached_leave()
 
-        # Submit leave request with employee details
-        leave = submit_leave_request(
-            employee_id=1,
-            leave_type="Vacation",
-            start_date="2026-04-10",
-            end_date="2026-04-12"
-        )
+        employee_id = int(input("Enter employee id: "))
+        leave_type = input("Enter leave type: ")
 
-        # Manager approval simulation
-        result = approve_leave(leave)
+        if validate_input(employee_id, leave_type):
+            pending = get_pending_leaves()
+            logging.warning(pending)
 
-        # Get pending leaves for manager
-        pending = get_pending_leaves()
+            leave = submit_leave_request(
+                employee_id,
+                leave_type,
+                "2026-04-10",
+                "2026-04-12"
+            )
 
-        # Notify employee about final decision
-        send_notification(result)
+            result = approve_leave(leave)
 
-        print(pending)
+            send_notification(result)
 
 
 if __name__ == "__main__":
