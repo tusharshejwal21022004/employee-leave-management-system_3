@@ -26,6 +26,7 @@ def main():
         # Notify employee about final decision
         send_notification(result)
 
+        print("Leave API routes initialized")
 
 if __name__ == "__main__":
     main()
