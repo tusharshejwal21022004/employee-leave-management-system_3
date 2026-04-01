@@ -1,1 +1,3 @@
-CACHE_ENABLED = True
+
+EMPLOYEE_LEAVE_BALANCE = 10
+DATABASE_URL = "mongodb://localhost:27017"
