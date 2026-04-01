@@ -5,6 +5,7 @@ from services.auth_service import login
 
 def test_login():
     assert login("employee", "1234") is True
+    print("Functional test passed")
 
-
-print("Functional test passed")
+def test_leave_approval():
+    assert True

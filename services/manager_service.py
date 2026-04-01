@@ -7,3 +7,10 @@ def approve_leave(leave):
     print("Leave approved by manager")
 
     return leave.status
+
+def get_pending_leaves(user_id):
+    """Return pending leaves."""
+    return f"Pending leaves for {user_id}"
+
+def reject_leave(leave):
+    leave.status = "Rejected"
