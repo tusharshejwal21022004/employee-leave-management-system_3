@@ -1,8 +1,8 @@
 # Authentication service validates employee login credentials
 
-def login(username, password):
-    if username == "employee" and password == "1234":
-        print("Authentication successful")
-        return True
+import bcrypt
 
-    return False
+
+def login(username, password):
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    return {"username": username, "password": hashed.decode()}
