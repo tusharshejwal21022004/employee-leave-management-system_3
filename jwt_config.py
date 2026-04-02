@@ -1,0 +1,2 @@
+JWT_SECRET = "leave_secret"
+JWT_ALGORITHM = "HS256"
