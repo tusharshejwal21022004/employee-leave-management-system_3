@@ -3,29 +3,41 @@
 
 from services.auth_service import login
 from services.leave_service import submit_leave_request
-from services.manager_service import approve_leave
+from services.manager_service import approve_leave, view_pending_requests
 from services.notification_service import send_notification
 
 
 def main():
     """Main workflow for employee dashboard and leave request handling."""
-    # Authenticate employee before performing operations
-    user = login("employee", "1234")
 
-    if user:
-        # Submit leave request with employee details
-        leave = submit_leave_request(
-            employee_id=1,
-            leave_type="Vacation",
-            start_date="2026-04-10",
-            end_date="2026-04-12"
-        )
+    try:
+        username = input("Enter username: ")
+        password = input("Enter password: ")
 
-        # Manager approval simulation
-        result = approve_leave(leave)
+        user = login(username, password)
 
-        # Notify employee about final decision
-        send_notification(result)
+        if user:
+            employee_id = int(input("Enter employee id: "))
+
+            leave = submit_leave_request(
+                employee_id=employee_id,
+                leave_type="Vacation",
+                start_date="2026-04-10",
+                end_date="2026-04-12"
+            )
+
+            pending = view_pending_requests([leave])
+            print("Pending Requests:", pending)
+
+            result = approve_leave(leave)
+
+            send_notification(result)
+
+        else:
+            print("Login failed")
+
+    except Exception as e:
+        print("Error:", e)
 
 
 if __name__ == "__main__":
