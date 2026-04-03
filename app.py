@@ -3,7 +3,7 @@
 
 from services.auth_service import login
 from services.leave_service import submit_leave_request, leave_cache
-from services.manager_service import approve_leave, view_pending_requests
+from services.manager_service import approve_leave, view_pending_requests, get_team_members
 from services.notification_service import send_notification
 from models.employee import Employee
 
@@ -38,6 +38,15 @@ def main():
             cached_leave = leave_cache.get(employee_id)
             print("Cached Leave:", cached_leave)
 
+            cached_again = submit_leave_request(
+                employee_id=employee_id,
+                leave_type=leave_type,
+                start_date=start_date,
+                end_date=end_date
+            )
+
+            print("Second fetch from cache:", cached_again)
+
             # Manager pending requests
             pending_requests = view_pending_requests([leave])
             print("Manager Pending Requests:", pending_requests)
@@ -47,6 +56,9 @@ def main():
             comment = input("Enter comment: ")
 
             leave = approve_leave(leave, decision, comment)
+
+            remaining = employee.calculate_remaining_leave(2)
+            print("Updated Remaining Leave:", remaining)
 
             # Notification
             send_notification(leave.status)

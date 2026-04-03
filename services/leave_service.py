@@ -6,11 +6,14 @@ leave_cache = {}
 
 
 def submit_leave_request(employee_id, leave_type, start_date, end_date):
-    # Create leave request object
+    if employee_id in leave_cache:
+        print("Leave fetched from cache")
+        return leave_cache[employee_id]
+
     leave = LeaveRequest(employee_id, leave_type, start_date, end_date)
 
     leave_cache[employee_id] = leave
 
-    print("Leave request submitted")
+    print("Leave request submitted and cached")
 
     return leave
