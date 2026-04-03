@@ -2,10 +2,9 @@
 # Controls authentication, leave submission, approval, and notification flow
 
 from services.auth_service import login
-from services.leave_service import submit_leave_request
+from services.leave_service import submit_leave_request, leave_cache
 from services.manager_service import approve_leave, view_pending_requests
 from services.notification_service import send_notification
-from services.leave_service import leave_cache
 from models.employee import Employee
 
 
@@ -24,20 +23,33 @@ def main():
             employee = Employee(employee_id, username)
             print("Remaining Leave:", employee.get_remaining_leave())
 
+            leave_type = input("Enter leave type: ")
+            start_date = input("Enter start date: ")
+            end_date = input("Enter end date: ")
+
             leave = submit_leave_request(
                 employee_id=employee_id,
-                leave_type="Vacation",
-                start_date="2026-04-10",
-                end_date="2026-04-12"
+                leave_type=leave_type,
+                start_date=start_date,
+                end_date=end_date
             )
 
-            pending = view_pending_requests([leave])
-            print("Pending Requests:", pending)
+            # Cache retrieval
+            cached_leave = leave_cache.get(employee_id)
+            print("Cached Leave:", cached_leave)
 
-            result = approve_leave(leave)
+            # Manager pending requests
+            pending_requests = view_pending_requests([leave])
+            print("Manager Pending Requests:", pending_requests)
 
-            print("Cached Leave Requests:", leave_cache)
-            send_notification(result)
+            # Approval / rejection with comment
+            decision = input("Approve or Reject: ")
+            comment = input("Enter comment: ")
+
+            leave = approve_leave(leave, decision, comment)
+
+            # Notification
+            send_notification(leave.status)
 
         else:
             print("Login failed")
