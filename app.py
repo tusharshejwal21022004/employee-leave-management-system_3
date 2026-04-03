@@ -2,14 +2,14 @@
 # Controls authentication, leave submission, approval, and notification flow
 
 from services.auth_service import login
-from services.leave_service import submit_leave_request, leave_cache
+from services.leave_service import submit_leave_request, cache_get
 from services.manager_service import approve_leave, view_pending_requests, get_team_members
 from services.notification_service import send_notification
-from models.employee import Employee
+from models.employee import Employee, cache_employee_get
 
 
 def main():
-    """Main workflow for employee dashboard and leave request handling."""
+    """Main workflow for manager dashboard and leave approval handling."""
 
     try:
         username = input("Enter username: ")
@@ -18,50 +18,44 @@ def main():
         user = login(username, password)
 
         if user:
-            employee_id = int(input("Enter employee id: "))
+            print("Manager Dashboard")
 
-            employee = Employee(employee_id, username)
-            print("Remaining Leave:", employee.get_remaining_leave())
+            # Manager fetches team members
+            team_members = get_team_members()
 
-            leave_type = input("Enter leave type: ")
-            start_date = input("Enter start date: ")
-            end_date = input("Enter end date: ")
+            all_leaves = []
 
-            leave = submit_leave_request(
-                employee_id=employee_id,
-                leave_type=leave_type,
-                start_date=start_date,
-                end_date=end_date
-            )
+            # Generate leave requests for team members
+            for member_id in team_members:
+                employee = Employee(member_id, f"Employee{member_id}")
 
-            # Cache retrieval
-            cached_leave = leave_cache.get(employee_id)
-            print("Cached Leave:", cached_leave)
+                cached_employee = cache_employee_get(member_id)
+                print("Cached Employee:", cached_employee)
 
-            cached_again = submit_leave_request(
-                employee_id=employee_id,
-                leave_type=leave_type,
-                start_date=start_date,
-                end_date=end_date
-            )
+                leave = submit_leave_request(
+                    employee_id=member_id,
+                    leave_type="Vacation",
+                    start_date="2026-04-10",
+                    end_date="2026-04-12"
+                )
 
-            print("Second fetch from cache:", cached_again)
+                cached_leave = cache_get(member_id)
+                print("Cached Leave:", cached_leave)
 
-            # Manager pending requests
-            pending_requests = view_pending_requests([leave])
+                all_leaves.append(leave)
+
+            # Manager views pending requests
+            pending_requests = view_pending_requests(all_leaves)
             print("Manager Pending Requests:", pending_requests)
 
-            # Approval / rejection with comment
-            decision = input("Approve or Reject: ")
-            comment = input("Enter comment: ")
+            # Manager approves/rejects requests
+            for leave_request in pending_requests:
+                decision = input("Approve or Reject: ")
+                comment = input("Enter comment: ")
 
-            leave = approve_leave(leave, decision, comment)
+                leave_request = approve_leave(leave_request, decision, comment)
 
-            remaining = employee.calculate_remaining_leave(2)
-            print("Updated Remaining Leave:", remaining)
-
-            # Notification
-            send_notification(leave.status)
+                send_notification(leave_request.status)
 
         else:
             print("Login failed")

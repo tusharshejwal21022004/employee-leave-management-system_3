@@ -5,15 +5,25 @@ from models.leave_request import LeaveRequest
 leave_cache = {}
 
 
+def cache_get(employee_id):
+    return leave_cache.get(employee_id)
+
+
+def cache_set(employee_id, leave):
+    leave_cache[employee_id] = leave
+
+
 def submit_leave_request(employee_id, leave_type, start_date, end_date):
-    if employee_id in leave_cache:
-        print("Leave fetched from cache")
-        return leave_cache[employee_id]
+    cached_leave = cache_get(employee_id)
+
+    if cached_leave:
+        print("Fetched from cache")
+        return cached_leave
 
     leave = LeaveRequest(employee_id, leave_type, start_date, end_date)
 
-    leave_cache[employee_id] = leave
+    cache_set(employee_id, leave)
 
-    print("Leave request submitted and cached")
+    print("Stored in cache")
 
     return leave

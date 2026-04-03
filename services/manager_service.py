@@ -14,3 +14,6 @@ def view_pending_requests(all_requests):
             pending.append(req)
 
     return pending
+
+def get_team_members():
+    return [101, 102, 103]
