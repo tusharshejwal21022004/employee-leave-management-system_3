@@ -5,6 +5,13 @@ from services.notification_service import send_notification
 from models.employee import Employee, cache_employee_get
 
 
+def manager_put_request(leave):
+    decision = input("Approve or Reject: ")
+    comment = input("Enter comment: ")
+
+    return approve_leave(leave, decision, comment)
+
+
 def main():
     try:
         username = input("Enter username: ")
@@ -26,19 +33,22 @@ def main():
             start_date = input("Enter start date: ")
             end_date = input("Enter end date: ")
 
-            leave = submit_leave_request(
-                employee_id=employee_id,
-                leave_type=leave_type,
-                start_date=start_date,
-                end_date=end_date
-            )
-
+            # Cache check before service call
             cached_leave = cache_get(employee_id)
-            print("Cached Leave:", cached_leave)
+
+            if cached_leave:
+                leave = cached_leave
+                print("Leave fetched from cache:", leave)
+            else:
+                leave = submit_leave_request(
+                    employee_id=employee_id,
+                    leave_type=leave_type,
+                    start_date=start_date,
+                    end_date=end_date
+                )
 
             # Manager flow
             team_members = get_team_members()
-
             all_leaves = []
 
             for member_id in team_members:
@@ -53,11 +63,8 @@ def main():
             pending_requests = view_pending_requests(all_leaves)
             print("Manager Pending Requests:", pending_requests)
 
-            # Approval
-            decision = input("Approve or Reject: ")
-            comment = input("Enter comment: ")
-
-            leave = approve_leave(leave, decision, comment)
+            # Manager approval (PUT-style)
+            leave = manager_put_request(leave)
 
             if leave.status == "Approved":
                 send_notification("Approved")

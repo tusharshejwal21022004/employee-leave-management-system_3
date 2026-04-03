@@ -17,13 +17,13 @@ def submit_leave_request(employee_id, leave_type, start_date, end_date):
     cached_leave = cache_get(employee_id)
 
     if cached_leave:
-        print("Fetched from cache")
+        print("Leave fetched from cache")
         return cached_leave
 
     leave = LeaveRequest(employee_id, leave_type, start_date, end_date)
 
     cache_set(employee_id, leave)
 
-    print("Stored in cache")
+    print("Leave request submitted and cached")
 
     return leave
