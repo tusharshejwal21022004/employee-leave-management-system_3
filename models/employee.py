@@ -6,3 +6,6 @@ class Employee:
         self.name = name
         self.leave_balance = leave_balance
         self.history = []   # Stores approved leave history
+
+    def get_remaining_leave(self):
+        return self.leave_balance

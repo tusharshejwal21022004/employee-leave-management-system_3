@@ -5,6 +5,8 @@ from services.auth_service import login
 from services.leave_service import submit_leave_request
 from services.manager_service import approve_leave, view_pending_requests
 from services.notification_service import send_notification
+from services.leave_service import leave_cache
+from models.employee import Employee
 
 
 def main():
@@ -19,6 +21,9 @@ def main():
         if user:
             employee_id = int(input("Enter employee id: "))
 
+            employee = Employee(employee_id, username)
+            print("Remaining Leave:", employee.get_remaining_leave())
+
             leave = submit_leave_request(
                 employee_id=employee_id,
                 leave_type="Vacation",
@@ -31,6 +36,7 @@ def main():
 
             result = approve_leave(leave)
 
+            print("Cached Leave Requests:", leave_cache)
             send_notification(result)
 
         else:
